@@ -7,7 +7,7 @@ int[][] ruleBook = {
 final int firstInitCells = 1;
 final int randomInitCells = 10;
 final int initSCL = 2;
-final boolean DEBUG = true;
+final boolean DEBUG = false;
 
 CA ca;   // An instance object to describe the Wolfram basic Cellular Automata
 
@@ -147,10 +147,6 @@ class CA {
   
   // The CA is done if it reaches the bottom of the screen
   boolean finished() {
-    if (generation > height/scl) {
-       return true;
-    } else {
-       return false;
-    }
+    return generation > height/scl;
   }
 }
