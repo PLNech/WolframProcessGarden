@@ -40,7 +40,7 @@ class CA {
 
   CA(int[] r) {
     rules = r;
-    scl = 1;
+    scl = 4;
     cells = new int[width/scl];
     restart();
   }
