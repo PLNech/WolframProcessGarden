@@ -1,9 +1,16 @@
-boolean DEBUGLOG = true;
+int[][] ruleBook = {
+  {0,1,0,1,1,0,1,0}, // Initial rule
+  {1,0,1,0,0,0,0,1},  // Zelda triangles
+  {0,0,0,0,0,0,0,0}, // Feu rouge
+};
+
+final boolean DEBUG = true;
+
 CA ca;   // An instance object to describe the Wolfram basic Cellular Automata
 
 void setup() {
   size(1900, 1024);
-  int[] ruleset = {0,1,0,1,1,0,1,0};    // An initial rule system
+  int[] ruleset = ruleBook[1];    // An initial rule system
   ca = new CA(ruleset);                 // Initialize CA
   background(0);
 }
