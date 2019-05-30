@@ -59,20 +59,16 @@ class CA {
   
   // Make a random ruleset
   void randomize() {
+    String msg = "{";
     for (int i = 0; i < 8; i++) {
       rules[i] = int(random(2));
-    }
-    if (DEBUG) {
-      String msg = "{";
-      for (int i = 0; i < 8; i++) {
-        msg += rules[i];
-        if (i != 7) {
-          msg += ",";
-        }
+      msg += rules[i];
+      if (i != 7) {
+        msg += ",";
       }
-      msg += "},";
-      println("Generated Ruleset: " + msg);
     }
+    msg += "},";
+    println("Generated Ruleset: " + msg);
   }
   
   // Reset to generation 0
