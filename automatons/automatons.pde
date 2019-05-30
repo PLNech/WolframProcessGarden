@@ -2,7 +2,7 @@ boolean DEBUGLOG = true;
 CA ca;   // An instance object to describe the Wolfram basic Cellular Automata
 
 void setup() {
-  size(640, 360);
+  size(1900, 1024);
   int[] ruleset = {0,1,0,1,1,0,1,0};    // An initial rule system
   ca = new CA(ruleset);                 // Initialize CA
   background(0);
@@ -12,20 +12,20 @@ void draw() {
   ca.render();    // Draw the CA
   ca.generate();  // Generate the next level
   
-  if (ca.finished()) {   // If we're done, clear the screen, pick a new ruleset and restart
-    background(0);
-    ca.randomize();
-    ca.restart();
+  if (!DEBUG && ca.finished()) {   // If we're done, clear the screen, pick a new ruleset and restart
+    randomReset();
   }
 }
 
 void mousePressed() {
-  background(0);
-  ca.randomize();
-  ca.restart();
+  randomReset();
 }
 
-
+void randomReset() {
+    background(0);
+    ca.randomize();
+    ca.restart(initStyle);
+}
 
 
 
