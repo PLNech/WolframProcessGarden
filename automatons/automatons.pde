@@ -4,6 +4,9 @@ int[][] ruleBook = {
   {0,0,0,0,0,0,0,0}, // Feu rouge
 };
 
+final int firstInitCells = 1;
+final int randomInitCells = 10;
+final int initSCL = 2;
 final boolean DEBUG = true;
 
 CA ca;   // An instance object to describe the Wolfram basic Cellular Automata
@@ -19,9 +22,8 @@ void draw() {
   ca.render();    // Draw the CA
   ca.generate();  // Generate the next level
   
-  if (!DEBUG && ca.finished()) {   // If we're done, clear the screen, pick a new ruleset and restart
-    randomReset();
-  }
+  // If we're done, clear the screen, pick a new ruleset and restart
+  if (!DEBUG && ca.finished()) { randomReset(); }
 }
 
 void mousePressed() {
@@ -31,10 +33,8 @@ void mousePressed() {
 void randomReset() {
     background(0);
     ca.randomize();
-    ca.restart(initStyle);
+    ca.restart(randomInitCells);
 }
-
-
 
 
 class CA {
@@ -47,7 +47,7 @@ class CA {
 
   CA(int[] r) {
     rules = r;
-    scl = 4;
+    scl = initSCL;
     cells = new int[width/scl];
     restart();
   }
@@ -62,21 +62,39 @@ class CA {
     for (int i = 0; i < 8; i++) {
       rules[i] = int(random(2));
     }
-    if (DEBUGLOG) {
-      String msg = "";
+    if (DEBUG) {
+      String msg = "{";
       for (int i = 0; i < 8; i++) {
         msg += rules[i];
+        if (i != 7) {
+          msg += ",";
+        }
       }
-      println("Generated Ruleset:" + msg);
+      msg += "},";
+      println("Generated Ruleset: " + msg);
     }
   }
   
   // Reset to generation 0
   void restart() {
+    restart(firstInitCells);
+  }
+  
+  void restart(int nbInitCells) {
     for (int i = 0; i < cells.length; i++) {
       cells[i] = 0;
     }
-    cells[cells.length/2] = 1;    // We arbitrarily start with just the middle cell having a state of "1"
+    int[] indices = new int[nbInitCells];
+    for (int i = 0; i < nbInitCells; i++) {
+      //indices[1] = 1 * cells.length / 2;
+      //indices[1,2] = 1 * cells.length / 3, 2 * cells.length / 3;
+      //i=0 1/2 ; i=1 1/3 2/3; 1=3 1/4 2/4 3/4;
+      indices[i] = (i+1) * cells.length / (nbInitCells+1);
+      cells[indices[i]] = 1;    
+      if (DEBUG) {
+        println("Init cell at " + indices[i] + " / " + cells.length);
+      }
+    }  
     generation = 0;
   }
 
